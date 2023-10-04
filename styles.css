@@ -43,6 +43,9 @@ button {
 
 #result {
     margin-top: 20px;
+    font-weight: 600;
+    font-size: large;
+    color: white;
 }
 
 .hidden {
