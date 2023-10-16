@@ -1,32 +1,38 @@
-document.getElementById('checkButton').addEventListener('click', function () {
-    const url = document.getElementById('urlInput').value;
+// Check links when button clicked
+document.getElementById('checkButton').addEventListener('click', () => {
 
-    // Basic URL validation
-    if (!url || !isValidURL(url)) {
-        document.getElementById('status').innerText = 'Invalid URL';
-        document.getElementById('result').classList.remove('hidden');
-        return;
-    }
+  const url = document.getElementById('urlInput').value;
 
-    // Send the request to the PHP proxy script
-    fetch(`proxy.php?url=${encodeURIComponent(url)}`)
-        .then(response => {
-            if (response.ok) {
-                document.getElementById('status').innerText = 'URL is working';
-            } else {
-                document.getElementById('status').innerText = 'URL is broken';
+  if(!url) return;
+
+  fetch(`proxy.php?url=${encodeURIComponent(url)}`)
+    .then(resp => resp.text()) 
+    .then(html => {
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const links = Array.from(doc.getElementsByTagName('a'));
+      const totalLinks = links.length;  
+      let brokenLinks = 0;
+
+      const fetchPromises = links.map(link =>
+        fetch(`proxy.php?url=${encodeURIComponent(link.href)}`)
+          .then(resp => {
+            if (!resp.ok) {
+              brokenLinks++;
             }
-            document.getElementById('result').classList.remove('hidden');
-        })
-        .catch(error => {
-            console.error(error);
-            document.getElementById('status').innerText = 'An error occurred';
-            document.getElementById('result').classList.remove('hidden');
-        });
+          })
+      );
+
+
+      displayResults(totalLinks, brokenLinks);
+
+    });
 });
 
-// Basic URL validation (same as before)
-function isValidURL(url) {
-    const pattern = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z0-9]{2,4}([/].*)?$/i;
-    return pattern.test(url);
+// Display total and broken links
+function displayResults(total, broken) {
+  document.getElementById('countsResult').innerText =
+    `Total Links: ${total} | Broken Links: ${broken}`;
 }
