@@ -8,15 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Broken Link Checker</h1>
         <div class="form">
             <input type="url" id="urlInput" placeholder="Enter URL">
-            <button id="checkButton">Check</button>
+            <button id="checkButton" onclick="">Check</button>
         </div>
-        <div id="result" class="hidden">
-            <p id="status"></p>
-        </div>
+        <div id="results">
+            <p id="countsResult" style=
+            "margin-top: 20px;
+            font-weight: 600;
+            font-size: large;
+            color: white;"></p>
+        </div>        
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
