@@ -34,5 +34,5 @@ document.getElementById('checkButton').addEventListener('click', () => {
 // Display total and broken links
 function displayResults(total, broken) {
   document.getElementById('countsResult').innerText =
-    `Total Links: ${total} | Broken Links: ${broken}`;
+    `${broken} Broken Links Found`;
 }
