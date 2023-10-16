@@ -41,13 +41,16 @@ button {
     font-weight: 600;
 }
 
-#result {
+#results{
     margin-top: 20px;
     font-weight: 600;
     font-size: large;
     color: white;
 }
 
-.hidden {
-    display: none;
+p#countsResult {
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: large;
+    color: white;
 }
